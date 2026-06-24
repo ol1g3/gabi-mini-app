@@ -10,11 +10,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // ─── Config ──────────────────────────────────────────────────────────
 const PORT = process.env.PORT || 3000;
-const DASHBOARD_PASSWORD = process.env.DASHBOARD_PASSWORD || 'changeme';
-const SESSION_SECRET =
-  process.env.SESSION_SECRET || 'insecure-default-secret-change-me';
-const COOKIE_NAME = 'gabi_session';
-const SESSION_TTL_MS = 1000 * 60 * 60 * 12; // 12 hours
 
 // The survey definition. Change these to re-use the kiosk for other studies.
 export const SURVEY = {
@@ -112,43 +107,6 @@ function labelFor(question, value) {
   return opt ? opt.label : value;
 }
 
-// ─── Auth (signed cookie, no extra deps) ─────────────────────────────
-function sign(value) {
-  return crypto
-    .createHmac('sha256', SESSION_SECRET)
-    .update(value)
-    .digest('hex');
-}
-
-function makeToken() {
-  const exp = String(Date.now() + SESSION_TTL_MS);
-  return `${exp}.${sign(exp)}`;
-}
-
-function tokenValid(token) {
-  if (!token || !token.includes('.')) return false;
-  const [exp, mac] = token.split('.');
-  if (sign(exp) !== mac) return false;
-  return Number(exp) > Date.now();
-}
-
-function parseCookies(req) {
-  const header = req.headers.cookie || '';
-  return Object.fromEntries(
-    header
-      .split(';')
-      .map((c) => c.trim().split('='))
-      .filter(([k]) => k)
-      .map(([k, ...v]) => [k, decodeURIComponent(v.join('='))])
-  );
-}
-
-function requireAuth(req, res, next) {
-  const cookies = parseCookies(req);
-  if (tokenValid(cookies[COOKIE_NAME])) return next();
-  res.redirect('/login');
-}
-
 // ─── App ─────────────────────────────────────────────────────────────
 const app = express();
 app.use(express.json());
@@ -182,37 +140,13 @@ app.post('/api/submit', async (req, res) => {
   res.json({ ok: true });
 });
 
-// Login
-app.post('/login', (req, res) => {
-  if ((req.body?.password || '') === DASHBOARD_PASSWORD) {
-    const cookie = [
-      `${COOKIE_NAME}=${makeToken()}`,
-      'HttpOnly',
-      'SameSite=Lax',
-      'Path=/',
-      `Max-Age=${SESSION_TTL_MS / 1000}`,
-    ].join('; ');
-    res.setHeader('Set-Cookie', cookie);
-    return res.redirect('/dashboard');
-  }
-  res.redirect('/login?error=1');
-});
-
-app.post('/logout', (_req, res) => {
-  res.setHeader(
-    'Set-Cookie',
-    `${COOKIE_NAME}=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0`
-  );
-  res.redirect('/login');
-});
-
-// Dashboard data (auth required)
-app.get('/api/responses', requireAuth, (_req, res) => {
+// Dashboard data
+app.get('/api/responses', (_req, res) => {
   res.json({ survey: SURVEY, responses });
 });
 
-// CSV export (auth required)
-app.get('/api/export.csv', requireAuth, (_req, res) => {
+// CSV export
+app.get('/api/export.csv', (_req, res) => {
   const cols = ['id', 'createdAt', ...SURVEY.questions.map((q) => q.id)];
   const escape = (s) => `"${String(s).replace(/"/g, '""')}"`;
   const rows = responses.map((r) =>
@@ -232,8 +166,7 @@ app.get('/api/export.csv', requireAuth, (_req, res) => {
 const send = (file) => (_req, res) =>
   res.sendFile(path.join(__dirname, 'views', file));
 
-app.get('/login', send('login.html'));
-app.get('/dashboard', requireAuth, send('dashboard.html'));
+app.get('/dashboard', send('dashboard.html'));
 
 // Static kiosk + assets
 app.use(express.static(path.join(__dirname, 'public')));
@@ -248,10 +181,5 @@ app.listen(PORT, () => {
       emailConfigured ? 'ENABLED' : 'disabled (add SMTP_* in .env to enable)'
     }`
   );
-  if (DASHBOARD_PASSWORD === 'changeme') {
-    console.log(
-      `\n  ⚠  Using the default dashboard password. Set DASHBOARD_PASSWORD in .env.`
-    );
-  }
   console.log('');
 });

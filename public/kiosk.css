@@ -124,39 +124,43 @@
   min-width: 240px;
 }
 
-/* Thank-you */
-#thanks {
-  align-items: center;
-  justify-content: center;
-}
-.thanks-card {
-  text-align: center;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-lg);
-  padding: 48px 36px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-.thanks-card .check {
-  color: var(--accent);
-}
-.thanks-card h2 {
-  margin: 8px 0 0;
-  font-size: 2rem;
-}
-.thanks-card p {
-  margin: 0;
-  color: var(--ink-soft);
+/* Confirmation toast */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: max(28px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  background: var(--accent);
+  color: var(--accent-ink);
+  padding: 16px 28px;
+  border-radius: 999px;
   font-size: 1.1rem;
+  font-weight: 650;
+  box-shadow: var(--shadow-lg);
+  z-index: 20;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
-.thanks-card .next-hint {
-  margin-top: 8px;
-  font-size: 0.95rem;
+.toast.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(8px);
+  display: block !important;
 }
-.thanks-card .btn-ghost {
-  margin-top: 18px;
+
+/* Dashboard link (subtle, top-right) */
+.dash-link {
+  position: fixed;
+  top: max(14px, env(safe-area-inset-top));
+  right: 18px;
+  z-index: 20;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 8px 14px;
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
 }

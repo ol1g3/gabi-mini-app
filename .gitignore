@@ -5,3 +5,6 @@ node_modules/
 
 # Note: responses.jsonl is intentionally NOT ignored — it's the survey data,
 # kept in git so it's easy to commit/back up.
+
+
+# claude --resume 09a5131d-7193-422b-8137-3feac0b8de4c

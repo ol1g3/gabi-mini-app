@@ -168,10 +168,8 @@
           <p class="sub" id="sub"></p>
         </div>
         <div class="actions">
+          <a class="btn-ghost" href="/">← Survey</a>
           <a class="btn" href="/api/export.csv">Export CSV</a>
-          <form method="POST" action="/logout">
-            <button class="btn-ghost" type="submit">Log out</button>
-          </form>
         </div>
       </div>
 
@@ -342,13 +340,7 @@
       }
 
       fetch('/api/responses')
-        .then((r) => {
-          if (r.status === 401 || r.redirected) {
-            location.href = '/login';
-            throw new Error('unauthorized');
-          }
-          return r.json();
-        })
+        .then((r) => r.json())
         .then(render)
         .catch(() => {});
     </script>

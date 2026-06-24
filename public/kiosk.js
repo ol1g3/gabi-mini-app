@@ -75,32 +75,24 @@ async function submit() {
       body: JSON.stringify({ answers: state.answers }),
     });
     if (!res.ok) throw new Error('Request failed');
-    showThanks();
+    showToast();
+    reset(); // load the form again for the next person
   } catch (err) {
     alert('Could not save your answer. Please try again.');
     el('submit').disabled = false;
   }
 }
 
-let countdownTimer = null;
-function showThanks() {
-  el('survey').classList.add('hidden');
-  el('thanks').classList.remove('hidden');
-  let n = 4;
-  el('countdown').textContent = n;
-  clearInterval(countdownTimer);
-  countdownTimer = setInterval(() => {
-    n -= 1;
-    el('countdown').textContent = n;
-    if (n <= 0) reset();
-  }, 1000);
+let toastTimer = null;
+function showToast() {
+  const t = el('toast');
+  t.classList.remove('hidden');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.add('hidden'), 2000);
 }
 
 function reset() {
-  clearInterval(countdownTimer);
   state.answers = {};
-  el('thanks').classList.add('hidden');
-  el('survey').classList.remove('hidden');
   render();
   refreshSubmit();
   window.scrollTo(0, 0);
@@ -110,7 +102,6 @@ async function init() {
   state.survey = await fetch('/api/survey').then((r) => r.json());
   render();
   el('submit').addEventListener('click', submit);
-  el('next').addEventListener('click', reset);
 }
 
 init();

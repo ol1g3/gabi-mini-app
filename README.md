@@ -2,12 +2,12 @@
 
 A small iPad-friendly survey kiosk. A respondent taps a **product size**
 (100 ml / 250 ml) and a **price** (€2,49 / €2,99 / €3,49) and submits. Every
-response is saved and shown in a **password-protected dashboard**, and can also
-be emailed to you.
+response is saved and shown in a **results dashboard**, and can also be emailed
+to you.
 
 ```
   index/kiosk.*   →  the survey screen (open this on the iPad)
-  /dashboard      →  password-protected results dashboard
+  /dashboard      →  results dashboard
   server.js       →  Express server + JSON storage + optional email
 ```
 
@@ -15,16 +15,10 @@ be emailed to you.
 
 ```bash
 npm install
-cp .env.example .env
 ```
 
-Then open `.env` and set at least:
-
-- `DASHBOARD_PASSWORD` — the password to view the dashboard.
-- `SESSION_SECRET` — any long random string. Generate one with:
-  ```bash
-  node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
-  ```
+(Optional) copy `cp .env.example .env` only if you want to change the port or
+enable email — no other setup is needed.
 
 ## 2. Run on the laptop
 
@@ -57,12 +51,13 @@ It prints something like `http://192.168.1.42:3000/`. Then:
 > `ipconfig getifaddr en1`, or run `ifconfig | grep "inet "` and use the
 > `192.168.x.x` / `10.x.x.x` address.
 
-After each submission the screen shows a thank-you and automatically resets for
-the next person.
+After each submission a brief "Thank you! Saved ✓" confirmation appears and the
+form immediately reloads for the next person.
 
 ## 4. The dashboard
 
-Go to `http://<computer-ip>:3000/dashboard`, enter your password, and you get:
+Tap **View dashboard** (top-right of the survey page) or go to
+`http://<computer-ip>:3000/dashboard`. No password — you get:
 
 - Total responses + the most-chosen size and price
 - Bar charts for each question

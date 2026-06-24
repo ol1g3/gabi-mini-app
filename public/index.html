@@ -25,23 +25,14 @@
           <button id="submit" class="btn" disabled>Submit</button>
         </footer>
       </section>
-
-      <!-- Thank-you screen -->
-      <section id="thanks" class="screen hidden">
-        <div class="thanks-card">
-          <div class="check" aria-hidden="true">
-            <svg viewBox="0 0 52 52" width="64" height="64">
-              <circle cx="26" cy="26" r="24" fill="none" stroke="currentColor" stroke-width="3" opacity="0.25"/>
-              <path d="M15 27 l8 8 l15 -17" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <h2>Thank you!</h2>
-          <p>Your answer has been recorded.</p>
-          <p class="next-hint">Ready for the next person in <span id="countdown">4</span>…</p>
-          <button id="next" class="btn-ghost">Start next response now</button>
-        </div>
-      </section>
     </main>
+
+    <!-- Brief confirmation after submit -->
+    <div id="toast" class="toast hidden">Thank you! Saved ✓</div>
+
+    <!-- Dashboard link -->
+    <a class="dash-link" href="/dashboard">View dashboard</a>
+
     <script src="/kiosk.js"></script>
   </body>
 </html>

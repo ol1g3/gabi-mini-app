@@ -67,6 +67,11 @@ function appendResponse(response) {
   fs.appendFileSync(TEXT_FILE, `[${when}]  ${parts.join('  |  ')}\n`);
 }
 
+function clearResponses() {
+  fs.rmSync(DATA_FILE, { force: true });
+  fs.rmSync(TEXT_FILE, { force: true });
+}
+
 let responses = loadResponses();
 
 // ─── Email (optional, wired but disabled until configured) ───────────
@@ -143,6 +148,13 @@ app.post('/api/submit', async (req, res) => {
 // Dashboard data
 app.get('/api/responses', (_req, res) => {
   res.json({ survey: SURVEY, responses });
+});
+
+// Reset — wipe all stored responses back to zero
+app.post('/api/reset', (_req, res) => {
+  responses = [];
+  clearResponses();
+  res.json({ ok: true });
 });
 
 // CSV export

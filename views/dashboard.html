@@ -38,6 +38,9 @@
         padding: 12px 22px;
         font-size: 1rem;
       }
+      .btn-danger {
+        background: var(--danger);
+      }
       .stat-row {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -169,6 +172,7 @@
         </div>
         <div class="actions">
           <a class="btn-ghost" href="/">← Survey</a>
+          <button class="btn btn-danger" id="reset">Reset to 0</button>
           <a class="btn" href="/api/export.csv">Export CSV</a>
         </div>
       </div>
@@ -339,10 +343,25 @@
         content.innerHTML = stats + panels + xtab + table;
       }
 
-      fetch('/api/responses')
-        .then((r) => r.json())
-        .then(render)
-        .catch(() => {});
+      function load() {
+        fetch('/api/responses')
+          .then((r) => r.json())
+          .then(render)
+          .catch(() => {});
+      }
+
+      document.getElementById('reset').addEventListener('click', async () => {
+        if (
+          !confirm(
+            'Delete ALL responses and reset the count to 0? This cannot be undone.'
+          )
+        )
+          return;
+        await fetch('/api/reset', { method: 'POST' });
+        load();
+      });
+
+      load();
     </script>
   </body>
 </html>

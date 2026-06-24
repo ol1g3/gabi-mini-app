@@ -1,0 +1,7 @@
+node_modules/
+.env
+*.log
+.DS_Store
+
+# Note: responses.jsonl is intentionally NOT ignored — it's the survey data,
+# kept in git so it's easy to commit/back up.

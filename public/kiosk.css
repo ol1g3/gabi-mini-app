@@ -1,0 +1,162 @@
+.kiosk {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: max(20px, env(safe-area-inset-top)) 20px
+    max(20px, env(safe-area-inset-bottom));
+}
+
+.screen {
+  width: 100%;
+  max-width: 760px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+.hidden {
+  display: none !important;
+}
+
+.kiosk-head {
+  text-align: center;
+}
+.kiosk-head h1 {
+  margin: 0 0 6px;
+  font-size: clamp(1.7rem, 4.5vw, 2.4rem);
+  letter-spacing: -0.02em;
+}
+.kiosk-head p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 1.1rem;
+}
+
+.question {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 22px;
+}
+.question + .question {
+  margin-top: 20px;
+}
+.question h2 {
+  margin: 0 0 18px;
+  font-size: 1.15rem;
+  font-weight: 650;
+  color: var(--ink);
+  text-align: center;
+}
+
+.options {
+  display: grid;
+  gap: 14px;
+}
+.options.size {
+  grid-template-columns: repeat(2, 1fr);
+}
+.options.price {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.option {
+  position: relative;
+  border: 2px solid var(--line);
+  background: #fff;
+  border-radius: 18px;
+  padding: 18px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transition: border-color 0.12s ease, background 0.12s ease,
+    transform 0.1s ease;
+  min-height: 120px;
+  justify-content: center;
+}
+.option:active {
+  transform: scale(0.98);
+}
+.option[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.option[aria-pressed="true"]::after {
+  content: "✓";
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.85rem;
+  display: grid;
+  place-items: center;
+}
+
+.option .bottle {
+  color: var(--accent);
+}
+.option .opt-label {
+  font-weight: 650;
+  font-size: 1.05rem;
+}
+.options.price .option {
+  min-height: 96px;
+}
+.options.price .opt-label {
+  font-size: 1.6rem;
+  letter-spacing: -0.02em;
+}
+
+.kiosk-foot {
+  display: flex;
+  justify-content: center;
+  padding-top: 4px;
+}
+.kiosk-foot .btn {
+  min-width: 240px;
+}
+
+/* Thank-you */
+#thanks {
+  align-items: center;
+  justify-content: center;
+}
+.thanks-card {
+  text-align: center;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  padding: 48px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.thanks-card .check {
+  color: var(--accent);
+}
+.thanks-card h2 {
+  margin: 8px 0 0;
+  font-size: 2rem;
+}
+.thanks-card p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 1.1rem;
+}
+.thanks-card .next-hint {
+  margin-top: 8px;
+  font-size: 0.95rem;
+}
+.thanks-card .btn-ghost {
+  margin-top: 18px;
+}

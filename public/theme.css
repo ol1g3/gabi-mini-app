@@ -1,0 +1,67 @@
+:root {
+  --bg: #f4f1ea;
+  --bg-2: #eae4d6;
+  --surface: #ffffff;
+  --ink: #1f2421;
+  --ink-soft: #5d6661;
+  --line: #e3ded3;
+  --accent: #0f766e;
+  --accent-ink: #ffffff;
+  --accent-soft: #d8efe9;
+  --danger: #b3261e;
+  --radius: 22px;
+  --shadow: 0 10px 30px rgba(31, 36, 33, 0.08);
+  --shadow-lg: 0 24px 60px rgba(31, 36, 33, 0.14);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--ink);
+  background: radial-gradient(
+      120% 90% at 50% -10%,
+      var(--bg-2) 0%,
+      var(--bg) 55%
+    )
+    fixed;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.btn {
+  border: none;
+  border-radius: 999px;
+  padding: 18px 34px;
+  font-size: 1.15rem;
+  font-weight: 650;
+  background: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: var(--shadow);
+  transition: transform 0.12s ease, opacity 0.12s ease, box-shadow 0.12s ease;
+}
+.btn:active {
+  transform: translateY(1px) scale(0.99);
+}
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--ink-soft);
+  box-shadow: none;
+  font-weight: 600;
+}

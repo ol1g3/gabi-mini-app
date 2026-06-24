@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <title>Survey</title>
+    <link rel="stylesheet" href="/theme.css" />
+    <link rel="stylesheet" href="/kiosk.css" />
+  </head>
+  <body>
+    <main class="kiosk">
+      <!-- Survey screen -->
+      <section id="survey" class="screen">
+        <header class="kiosk-head">
+          <h1 id="title"></h1>
+          <p id="subtitle"></p>
+        </header>
+        <div id="questions"></div>
+        <footer class="kiosk-foot">
+          <button id="submit" class="btn" disabled>Submit</button>
+        </footer>
+      </section>
+
+      <!-- Thank-you screen -->
+      <section id="thanks" class="screen hidden">
+        <div class="thanks-card">
+          <div class="check" aria-hidden="true">
+            <svg viewBox="0 0 52 52" width="64" height="64">
+              <circle cx="26" cy="26" r="24" fill="none" stroke="currentColor" stroke-width="3" opacity="0.25"/>
+              <path d="M15 27 l8 8 l15 -17" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h2>Thank you!</h2>
+          <p>Your answer has been recorded.</p>
+          <p class="next-hint">Ready for the next person in <span id="countdown">4</span>…</p>
+          <button id="next" class="btn-ghost">Start next response now</button>
+        </div>
+      </section>
+    </main>
+    <script src="/kiosk.js"></script>
+  </body>
+</html>
